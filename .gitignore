@@ -1,3 +1,6 @@
+# db
+db/mongo-db/*
+
 # Logs
 logs
 *.log
