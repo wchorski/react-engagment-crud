@@ -1,15 +1,14 @@
-// const { EXPRESS_API_IP, EXPRESS_API_PORT} = require ('../../config/config')
-
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { FaPlus } from 'react-icons/fa'
 import { useNavigate } from "react-router-dom";
 
 import { StyledGigForm } from '../styles/GigForm.styled'
 
 import axios from 'axios'
+const { EXPRESS_API_IP, EXPRESS_API_PORT } = require('../config/config')
 const api = axios.create({
-  // baseURL: `http://${EXPRESS_API_IP}:${EXPRESS_API_PORT}/api/v1`
-  baseURL: `http://localhost:4011/api/v1`
+  baseURL: `http://${EXPRESS_API_IP}:${EXPRESS_API_PORT}/api/v1`
+  // baseURL: `http://192.168.0.100:4011/api/v1`
 })
 
 export const GigForm = () => {
@@ -20,15 +19,15 @@ export const GigForm = () => {
   // TODO success or Failure message
 
   const postForm = async (event, jsonFrom) => {
-    try{
+    try {
       navigate('/')
       // event.preventDefault()
       let dJSON = formJSON
-      let res = await api.post('/engagements', { ...dJSON})
+      let res = await api.post('/engagements', { ...dJSON })
       // console.log(res)
       // getForms()
       // postFrontendData(dJSON)
-    } catch (err){
+    } catch (err) {
       console.log(err);
     }
   }
@@ -50,7 +49,7 @@ export const GigForm = () => {
     address: "123 wallyworld ave Candlyland, AA 60622",
     type: "party",
     client: "client 1",
-    email:"client@email.com",
+    email: "client@email.com",
     phone: "(000) 000-0000",
     employee: "choose employee...",
     options: [],
@@ -61,17 +60,17 @@ export const GigForm = () => {
       <h2>GigForm</h2>
 
       <StyledGigForm>
-        <form onSubmit={postFrontendData} id="TheForm" className="dataForm">    
-        <label>Engagment Details</label>
-          <input 
-              type="date"
-              placeholder="date of engagment..."
-              required
-              onChange={(event) => {
-                formJSON.dateGig = event.target.value
-              }}
-          />    
-          <input 
+        <form onSubmit={postFrontendData} id="TheForm" className="dataForm">
+          <label>Engagment Details</label>
+          <input
+            type="date"
+            placeholder="date of engagment..."
+            required
+            onChange={(event) => {
+              formJSON.dateGig = event.target.value
+            }}
+          />
+          <input
             type="address"
             placeholder="address..."
             // required
@@ -79,7 +78,7 @@ export const GigForm = () => {
               formJSON.address = event.target.value
             }}
           />
-          <input 
+          <input
             type="text"
             placeholder="birthday, wedding, graduation, ect..."
             // required
@@ -88,7 +87,7 @@ export const GigForm = () => {
             }}
           />
           <label>Client Info</label>
-          <input 
+          <input
             type="text"
             placeholder="client name..."
             required
@@ -96,7 +95,7 @@ export const GigForm = () => {
               formJSON.client = event.target.value
             }}
           />
-          <input 
+          <input
             type="email"
             placeholder="client email..."
             required
@@ -104,7 +103,7 @@ export const GigForm = () => {
               formJSON.email = event.target.value
             }}
           />
-          <input 
+          <input
             type="phone"
             placeholder="client phone..."
             required
@@ -112,7 +111,7 @@ export const GigForm = () => {
               formJSON.phone = event.target.value
             }}
           />
-          <input 
+          <input
             type="text"
             placeholder="employee for gig..."
             required
@@ -120,7 +119,7 @@ export const GigForm = () => {
               formJSON.employee = event.target.value
             }}
           />
-          <input 
+          <input
             type="text"
             placeholder="gig options..."
             required
@@ -128,12 +127,12 @@ export const GigForm = () => {
               formJSON.options = event.target.value
             }}
           />
-          
 
-          <button type='submit'> <FaPlus/> Create Gig </button>
+
+          <button type='submit'> <FaPlus /> Create Gig </button>
         </form>
       </StyledGigForm>
     </>
-    
+
   )
 }

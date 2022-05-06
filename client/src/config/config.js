@@ -1,5 +1,5 @@
 module.exports = {
-  EXPRESS_API_IP: process.env.EXPRESS_API_IP || "localhost",
+  EXPRESS_API_IP: process.env.EXPRESS_API_IP || "192.168.0.100",
   EXPRESS_API_PORT: process.env.EXPRESS_API_PORT || 4011,
   // MONGO_USER: process.env.MONGO_USER || "sanjeev",
   // MONGO_PASS: process.env.MONGO_PASS || "mypassword",
