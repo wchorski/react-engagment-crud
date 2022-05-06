@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+
+  sanjeev-express:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      args: 
+        NODE_ENV: development
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    environment:
+      - PORT=3001
+      - NODE_ENV=development
+      - MONGO_USER=sanjeev
+      - MONGO_PASS=mypassword
+      - SESSION_SECRET=secret
+    command: npm run dev
+    depends_on:
+      - mongo
+    networks:
+      - sanjeev-docker-net
+  
+  mongo:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=sanjeev
+      - MONGO_INITDB_ROOT_PASSWORD=mypassword
+    volumes:
+      - ./db/mongo-db:/data/db
+    networks:
+      - sanjeev-docker-net
+  
+  redis:
+    image: redis
+  
+  # client:
+  #   restart: always
+  #   build:
+  #     context: ./client
+  #     dockerfile: Dockerfile.dev
+  #   volumes:
+  #     - ./client:/app
+  #     - /app/node_modules
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - sanjeev-express
+  #   networks:
+  #     - sanjeev-docker-net
+    
+networks:
+   sanjeev-docker-net:
+      driver: bridge
+
+volumes:
+  mongo-db:
