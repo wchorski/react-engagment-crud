@@ -9,7 +9,7 @@ services:
       args: 
         NODE_ENV: development
     ports:
-      - "3001:3001"
+      - "4011:3001"
     volumes:
       - ./server:/app
       - /app/node_modules
@@ -38,20 +38,20 @@ services:
   redis:
     image: redis
   
-  # client:
-  #   restart: always
-  #   build:
-  #     context: ./client
-  #     dockerfile: Dockerfile.dev
-  #   volumes:
-  #     - ./client:/app
-  #     - /app/node_modules
-  #   ports:
-  #     - 3000:3000
-  #   depends_on:
-  #     - sanjeev-express
-  #   networks:
-  #     - sanjeev-docker-net
+  client:
+    restart: always
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    ports:
+      - 4010:3000
+    depends_on:
+      - sanjeev-express
+    networks:
+      - sanjeev-docker-net
     
 networks:
    sanjeev-docker-net:
