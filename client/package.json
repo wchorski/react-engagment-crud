@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.0.1",
   "private": true,
-  "proxy": "http://localhost:3001",
+  "proxy": "http://localhost:4011",
   "dependencies": {
     "@tanstack/react-table": "^8.0.0-alpha.64",
     "@testing-library/jest-dom": "^5.16.4",

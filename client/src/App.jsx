@@ -11,7 +11,7 @@ import {Create}       from './views/Create'
 
 // import axios from 'axios'
 // const api = axios.create({
-//   baseURL: `http://localhost:3001/api/v1`
+//   baseURL: `/api/v1`
 // })
 
 function App() {

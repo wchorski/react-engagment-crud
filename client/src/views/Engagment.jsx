@@ -1,3 +1,5 @@
+// const { EXPRESS_API_IP, EXPRESS_API_PORT} = require ('../../config/config')
+
 import React, { useState, useEffect } from "react";
 import { FaTrashAlt, FaSkullCrossbones, FaEject } from 'react-icons/fa'
 import { useParams, useNavigate } from "react-router-dom";
@@ -8,7 +10,8 @@ import { GigSingle } from '../Components/GigSingle'
 
 import axios from 'axios'
 const api = axios.create({
-  baseURL: `http://localhost:3001/api/v1`
+  // baseURL: `http://${EXPRESS_API_IP}:${EXPRESS_API_PORT}/api/v1`
+  baseURL: `http://localhost:4011/api/v1`
 })
   
 const Engagment = (  ) => {

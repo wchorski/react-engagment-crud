@@ -48,6 +48,9 @@ services:
       - /app/node_modules
     ports:
       - 4010:3000
+    environment:
+      - EXPRESS_API_IP=localhost
+      - EXPRESS_API_PORT=4011
     depends_on:
       - sanjeev-express
     networks:

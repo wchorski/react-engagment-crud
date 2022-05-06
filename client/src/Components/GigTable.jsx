@@ -1,5 +1,7 @@
 // rafc snippit
 
+// const { EXPRESS_API_IP, EXPRESS_API_PORT} = require ('../../config/config')
+
 import React, {useState, useEffect, useMemo } from 'react'
 import { useTable, useSortBy } from 'react-table'
 import { Link } from 'react-router-dom'
@@ -10,7 +12,8 @@ import { StyledGigTable } from '../styles/GigTable.styled'
 
 import axios from 'axios'
 const api = axios.create({
-  baseURL: `http://localhost:3001/api/v1`
+  // baseURL: `http://${EXPRESS_API_IP}:${EXPRESS_API_PORT}/api/v1`
+  baseURL: `http://localhost:4011/api/v1`
 })
 
 
@@ -122,7 +125,7 @@ export const GigTable = () => {
                       )
                     })}
                     <td><Link to={`/engagment/${row.values._id}`}> account </Link> </td>
-                    {/* <a href={`http://localhost:3001/api/v1/engagements/${row.values._id}`}>account</a>  */}
+                    {/* <a href={`/api/v1/engagements/${row.values._id}`}>account</a>  */}
                   </tr>
                 )
               })}
