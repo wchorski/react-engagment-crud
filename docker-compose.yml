@@ -42,7 +42,7 @@ services:
   #   restart: always
   #   depends_on:
   #     - sanjeev-express
-  #     # - client
+  #     - client
   #   build:
   #     context: ./nginx
   #     dockerfile: Dockerfile.dev
@@ -60,7 +60,7 @@ services:
       - ./client:/app
       - /app/node_modules
     ports:
-      - 4010:3000
+      - 4010:80
     environment:
       - EXPRESS_API_IP=192.168.0.100
       - EXPRESS_API_PORT=4011
