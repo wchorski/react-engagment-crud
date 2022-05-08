@@ -7,7 +7,7 @@ import { StyledGigForm } from '../styles/GigForm.styled'
 import axios from 'axios'
 const { EXPRESS_API_IP, EXPRESS_API_PORT } = require('../config/config')
 const api = axios.create({
-  baseURL: `http://${EXPRESS_API_IP}:${EXPRESS_API_PORT}/api/v1`
+  baseURL: `${EXPRESS_API_IP}:${EXPRESS_API_PORT}/api/v1`
   // baseURL: `http://192.168.0.100:4011/api/v1`
 })
 
