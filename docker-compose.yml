@@ -6,7 +6,7 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-      args: 
+      args:
         NODE_ENV: development
     ports:
       - "4011:3001"
@@ -24,7 +24,7 @@ services:
       - mongo
     networks:
       - sanjeev-docker-net
-  
+
   mongo:
     image: mongo
     environment:
@@ -34,15 +34,28 @@ services:
       - ./db/mongo-db:/data/db
     networks:
       - sanjeev-docker-net
-  
+
   redis:
     image: redis
-  
+
+  # nginx:
+  #   restart: always
+  #   depends_on:
+  #     - sanjeev-express
+  #     # - client
+  #   build:
+  #     context: ./nginx
+  #     dockerfile: Dockerfile.dev
+  #   ports:
+  #     - 4012:80
+  #   networks:
+  #     - sanjeev-docker-net
+
   client:
-    restart: always
+    # restart: always
     build:
       context: ./client
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.prod
     volumes:
       - ./client:/app
       - /app/node_modules
@@ -55,10 +68,10 @@ services:
       - sanjeev-express
     networks:
       - sanjeev-docker-net
-    
+
 networks:
-   sanjeev-docker-net:
-      driver: bridge
+  sanjeev-docker-net:
+    driver: bridge
 
 volumes:
   mongo-db:
