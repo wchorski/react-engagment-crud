@@ -1,6 +1,8 @@
 # db
 db/mongo-db/
 
+*/build
+
 # Logs
 logs
 *.log
