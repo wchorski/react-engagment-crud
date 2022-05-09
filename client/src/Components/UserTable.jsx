@@ -23,16 +23,21 @@ export const UserTable = () => {
   const [gigsArray, setGigssArray] = useState([])
 
   const getGigs = async () => {
-    let response = await api.get('/users').then(({ data }) => data)
-    // console.log(response.data.posts);
-    if (response === undefined || response.length === 0) {
-      console.log('no data in database')
+    try{
+      let response = await api.get('/users').then(({ data }) => data)
+      // console.log(response.data.posts);
+      if (response === undefined || response.length === 0) {
+        console.log('no data in database')
+  
+        return setGigssArray([{ client: "no client", type: "no type" }])
+      }
+      // setPostsArray(prevPostsArray => [response.data.posts, ...prevPostsArray])
+      setGigssArray(response.data.users)
+      // console.log(gigsArray)
 
-      return setGigssArray([{ client: "no client", type: "no type" }])
+    } catch (err){
+      console.log('cannot get users from db');
     }
-    // setPostsArray(prevPostsArray => [response.data.posts, ...prevPostsArray])
-    setGigssArray(response.data.users)
-    // console.log(gigsArray)
   }
 
   useEffect(() => {

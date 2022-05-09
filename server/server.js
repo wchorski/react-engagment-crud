@@ -1,4 +1,4 @@
-const { MONGO_USER, MONGO_PASS, MONGO_IP, MONGO_PORT, SESSION_SECRET, REDIS_URL, REDIS_PORT, EXPRESS_PORT } = require('./config/config')
+const { MONGO_USER, MONGO_PASS, MONGO_IP, MONGO_PORT, SESSION_SECRET, REDIS_URL, REDIS_PORT, EXPRESS_PORT, EXPRESS_API_IP } = require('./config/config')
 const express = require('express')
 const app = express()
 // const https = require('https')
@@ -8,8 +8,8 @@ const cors = require('cors')
 
 const session = require('express-session')
 const redis = require('redis')
-const connectRedis = require('connect-redis')
-let RedisStore = connectRedis(session)
+let RedisStore = require('connect-redis')(session)
+
 let redisClient = redis.createClient({
   host: REDIS_URL,
   port: REDIS_PORT
@@ -17,8 +17,8 @@ let redisClient = redis.createClient({
 
 
 const mongoose = require('mongoose')
-// const mongoURL = `mongodb://${MONGO_USER}:${MONGO_PASS}@${MONGO_IP}:${MONGO_PORT}/?authSource=admin`
-const mongoURL = `mongodb://sanjeev:mypassword@mongo:27017/?authSource=admin`
+const mongoURL = `mongodb://${MONGO_USER}:${MONGO_PASS}@${MONGO_IP}:${MONGO_PORT}/?authSource=admin`
+// const mongoURL = `mongodb://sanjeev:mypassword@mongo:27017/?authSource=admin`
 const connectWithRetry = () => {
   mongoose
     .connect(mongoURL, {
@@ -40,22 +40,18 @@ app.use(cors({}))
 
 //? session middleware
 app.use(session({
-  
   store: new RedisStore({client: redisClient}),
   secret: SESSION_SECRET,
-  credentials: true,
-  saveUninitialized: false,
-  resave: false,
 
   cookie: {
-    secure: process.env.NODE_ENV === 'production' ? 'true' : 'auto',
     secure: false,
+    resave: false,
+    saveUninitialized: false,
     httpOnly: true,
-    maxAge: (1000 * 60 * 5),
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    },
-   
-} ))
+    maxAge: 60000,
+  }
+}))
+
 
 app.use(express.json())
 
@@ -71,6 +67,7 @@ app.get("/users", (req, res) => {
 const postRouter = require('./routes/postRoutes')
 const userRouter = require('./routes/userRoutes')
 const engagementRtr = require('./routes/engagementRts')
+
 // localhost:3001/api/v1/posts
 app.use('/api/v1/posts', postRouter)
 app.use('/api/v1/users', userRouter)
@@ -84,7 +81,7 @@ const port = process.env.PORT || 3001
 // }, app)
 
 // sslServer.listen(port, () => console.log(`-- Express SSL Server: https://localhost:${port} --`))
-app.listen(port, () => console.log(`-- Express Server: http://localhost:${port} --`))
+app.listen(port, () => console.log(`-- Express Server: http://${EXPRESS_API_IP}:${port} --`))
 
 //! must go at the bottom of exp.get calls
 app.use((req, res) => {

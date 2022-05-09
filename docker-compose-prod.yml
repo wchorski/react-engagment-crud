@@ -9,7 +9,7 @@ services:
       args:
         NODE_ENV: production
     ports:
-      - "4011:3005"
+      - "4011:3001"
     volumes:
       - ./server:/app
       - /app/node_modules
@@ -19,7 +19,7 @@ services:
       - MONGO_USER=sanjeev
       - MONGO_PASS=mypassword
       - SESSION_SECRET=secret
-    command: npm run dev
+    # command: npm run dev
     depends_on:
       - mongo
     networks:
@@ -37,6 +37,8 @@ services:
 
   redis:
     image: redis
+    networks:
+      - sanjeev-docker-net
 
   # nginx:
   #   restart: always

@@ -1,17 +1,14 @@
 const express = require('express')
-
 //  http://localhost/api/v1/engagements/...
-
 const engagementCntrl = require('../controllers/engagementCntrl')
-
 const router = express.Router()
+const protect = require('../middleware/authMiddleware')
 
 
 router.route('/')
-  .get(engagementCntrl.getAllGigs)
-  .post(engagementCntrl.createGig)
-  //TODO protect all  
-  // .post(protect, postController.createPost)
+  .get(protect, engagementCntrl.getAllGigs)
+  // .post(engagementCntrl.createGig) 
+  .post(protect, engagementCntrl.createGig)
    
 router.route('/:id')
   .get(engagementCntrl.getOneGig)

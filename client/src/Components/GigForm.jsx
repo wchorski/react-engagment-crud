@@ -21,12 +21,9 @@ export const GigForm = () => {
   const postForm = async (event, jsonFrom) => {
     try {
       navigate('/')
-      // event.preventDefault()
       let dJSON = formJSON
       let res = await api.post('/engagements', { ...dJSON })
-      // console.log(res)
-      // getForms()
-      // postFrontendData(dJSON)
+
     } catch (err) {
       console.log(err);
     }
@@ -37,7 +34,7 @@ export const GigForm = () => {
     document.getElementById("TheForm").reset();
 
     setGigForm([formJSON, ...gigForm])
-    console.log(gigForm);
+    // console.log(gigForm);
 
     //? Save to DB
     postForm()

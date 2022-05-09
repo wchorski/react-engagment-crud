@@ -37,6 +37,8 @@ services:
 
   redis:
     image: redis
+    networks:
+      - sanjeev-docker-net
 
   # nginx:
   #   restart: always

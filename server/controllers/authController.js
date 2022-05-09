@@ -4,8 +4,15 @@ const bcrypt = require('bcryptjs')
 exports.signUp = async(req, res) => {
 
   const {username, password} = req.body
+
+  const duplicateName = await User.findOne( {username: username}).exec()
+  if(duplicateName) return res.sendStatus(409) 
   
   try{
+
+    // TODO is username taken? foreach user in User db
+    // TODO if yes throw client error
+    // TODO if no save new user
 
     const hashpassword = await bcrypt.hash(password, 12)
     const newUser = await User.create({
@@ -13,6 +20,8 @@ exports.signUp = async(req, res) => {
       password: hashpassword
     })
 
+    console.log('New User Created: ' + username);
+    req.session.user = newUser //? logins in after creating & gets data from session cookie
     res.status(201).json({
       status: 'successful signUp',
       data: {
@@ -20,10 +29,13 @@ exports.signUp = async(req, res) => {
       }
     })
 
+
   } catch (err) {
+
     res.status(400).json({
       status: 'failed signup',
-      message: err.toString()
+      user: username,
+      message: err.toString(),
     })
   }
 }
@@ -36,9 +48,11 @@ exports.login = async (req, res) => {
     const user = await User.findOne( {username} ) 
 
     if(!user){
+      console.log('---- non-user failed login attempt: ' + username);
       res.status(404).json({
         status: 'failed login',
-        message: 'user not found'
+        user: user,
+        message: 'user not found',
       })
       return
     }
@@ -46,7 +60,7 @@ exports.login = async (req, res) => {
     const isCorrect = await bcrypt.compare(password, user.password)
     if(isCorrect){
 
-      // req.session.user = user
+      req.session.user = user //? logins in & gets data from session cookie
       console.log('---- user logged in: ' + username);
       res.status(200).json({
         status: 'successful login',
