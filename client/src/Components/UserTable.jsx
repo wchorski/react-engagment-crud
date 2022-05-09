@@ -17,13 +17,13 @@ const api = axios.create({
 })
 
 
-export const GigTable = () => {
+export const UserTable = () => {
 
   //? DATA ###############################
   const [gigsArray, setGigssArray] = useState([])
 
   const getGigs = async () => {
-    let response = await api.get('/engagements').then(({ data }) => data)
+    let response = await api.get('/users').then(({ data }) => data)
     // console.log(response.data.posts);
     if (response === undefined || response.length === 0) {
       console.log('no data in database')
@@ -31,50 +31,32 @@ export const GigTable = () => {
       return setGigssArray([{ client: "no client", type: "no type" }])
     }
     // setPostsArray(prevPostsArray => [response.data.posts, ...prevPostsArray])
-    setGigssArray(response.data.gigs)
+    setGigssArray(response.data.users)
     // console.log(gigsArray)
   }
 
   useEffect(() => {
     getGigs()
-    console.log('GigTable.jsx useEffect');
+    console.log('UserTable.jsx useEffect');
   }, [''])
 
 
   //? TABLE #################################
   const gigColumns = [
     {
-      Header: 'Date of Gig',
-      Footer: 'Date of Gig',
-      accessor: 'dateGig',
-      Cell: ({ value }) => { return format(new Date(value), 'MM/dd/yyyy') }
+      Header: 'Username',
+      Footer: 'Username',
+      accessor: 'username',
     },
     {
-      Header: 'Client Info',
-      Footer: 'Client Info',
-      //? group multple columns with one name
-      columns: [
-        {
-          Header: 'Client',
-          Footer: 'Client',
-          accessor: 'client'
-        },
-        {
-          Header: 'Type',
-          Footer: 'Type',
-          accessor: 'type'
-        },
-        {
-          Header: 'ID',
-          Footer: 'ID',
-          accessor: '_id'
-        },
-      ]
+      Header: 'Password',
+      Footer: 'Password',
+      accessor: 'password'
     },
     {
-      Header: 'Employee',
-      Footer: 'Employee',
-      accessor: 'employee'
+      Header: 'ID',
+      Footer: 'ID',
+      accessor: '_id'
     },
   ]
 
@@ -90,8 +72,9 @@ export const GigTable = () => {
 
   return (
     <>
+      <h2>UserTable.jsx</h2>
       <StyledGigTable>
-        <button onClick={getGigs}>refresh gigs <GrRefresh /></button>
+        <button onClick={getGigs}>refresh users <GrRefresh /></button>
 
 
         <div className="postTable">
@@ -105,7 +88,7 @@ export const GigTable = () => {
                     <th {...column.getHeaderProps(column.getSortByToggleProps())} key={i}>
                       {column.render('Header')}
                       <span>
-                        {column.isSorted ? (column.isSortedDesc ? <FaSortAmountUp /> : <FaSortAmountDownAlt />) : ''}
+                        {column.isSorted ? (column.isSortedDesc ? ' ↥' : ' ↧') : ''}
                       </span>
                     </th>
                   ))}
@@ -124,7 +107,7 @@ export const GigTable = () => {
                         <td {...cell.getCellProps()}> {cell.render('Cell')}</td>
                       )
                     })}
-                    <td><Link to={`/engagment/${row.values._id}`}> account </Link> </td>
+                    <td><Link to={`/users/${row.values._id}`}> account </Link> </td>
                     {/* <a href={`/api/v1/engagements/${row.values._id}`}>account</a>  */}
                   </tr>
                 )

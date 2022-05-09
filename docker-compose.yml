@@ -9,7 +9,7 @@ services:
       args:
         NODE_ENV: development
     ports:
-      - "4011:3001"
+      - "3001:3001"
     volumes:
       - ./server:/app
       - /app/node_modules
@@ -61,10 +61,10 @@ services:
       - /app/node_modules
     ports:
       # - 4010:80
-      - 4010:3000
+      - 3000:3000
     environment:
       - EXPRESS_API_IP=localhost
-      - EXPRESS_API_PORT=4011
+      - EXPRESS_API_PORT=3001
     depends_on:
       - sanjeev-express
     networks:

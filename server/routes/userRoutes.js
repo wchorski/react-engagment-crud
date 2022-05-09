@@ -11,8 +11,9 @@ router.post('/login',   authController.login)
 router.route('/')
   .get(authController.getAllUsers)
 
-// router.route('/:id')
-//   .get(authController.user_details)
+router.route('/:id')
+  .get(authController.user_details)
+  .delete(authController.deleteUser)
 
 
 module.exports = router

@@ -8,8 +8,9 @@ RUN if [ "$NODE_ENV" = "development" ]; \
   else npm install --only=production; \
   fi 
 
+# RUN sudo chown -R node:node cert
 
 COPY . ./
-ENV PORT 3001
+ENV PORT 4011
 EXPOSE $PORT
 CMD ["npm", "server.js"]

@@ -34,7 +34,6 @@ exports.login = async (req, res) => {
   try{
     
     const user = await User.findOne( {username} ) 
-    console.log(username);
 
     if(!user){
       res.status(404).json({
@@ -48,11 +47,12 @@ exports.login = async (req, res) => {
     if(isCorrect){
 
       // req.session.user = user
-
+      console.log('---- user logged in: ' + username);
       res.status(200).json({
         status: 'successful login',
         user: user
       })
+
     } else {
       res.status(400).json({
         status: 'failed login',
@@ -87,20 +87,36 @@ exports.getAllUsers = async (req, res, next) => {
   }
 }
 
-// exports.user_details = async (req, res) => {
-//   try{
-//     const user = await User.findById(req.params.id)
+exports.user_details = async (req, res) => {
+  try{
+    const user = await User.findById(req.params.id)
 
-//     res.status(200).json({
-//       status: 'successful user_details',
-//       // results: users.length, 
-//       data: {
-//         user
-//       }
-//     })
+    res.status(200).json({
+      status: 'successful user_details',
+      // results: users.length, 
+      data: {
+        user
+      }
+    })
 
-//   } catch (err){
-//     console.log(err);
-//     res.status(400).json({status: 'failed to user_details', message: err.toString()})
-//   }
-// }
+  } catch (err){
+    console.log(err);
+    res.status(400).json({status: 'failed to user_details', message: err.toString()})
+  }
+
+}
+
+exports.deleteUser = async (req, res, next) => {
+  try{
+    const user = await User.findByIdAndDelete(req.params.id)
+
+    res.status(200).json({
+      status: 'deleted user',
+      user,
+    })
+
+  } catch (err){
+    console.log(err);
+    res.status(400).json({status: 'failed user deletion',})
+  }
+}

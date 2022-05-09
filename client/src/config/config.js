@@ -1,8 +1,8 @@
 
 module.exports = {
 
-  EXPRESS_API_IP: process.env.EXPRESS_API_IP || "https://localhost",
-  EXPRESS_API_PORT: process.env.EXPRESS_API_PORT || 4011,
+  EXPRESS_API_IP: process.env.EXPRESS_API_IP || "http://localhost",
+  EXPRESS_API_PORT: process.env.EXPRESS_API_PORT || 3001,
   // MONGO_USER: process.env.MONGO_USER || "sanjeev",
   // MONGO_PASS: process.env.MONGO_PASS || "mypassword",
   // REDIS_URL: process.env.REDIS_URL || 'redis',

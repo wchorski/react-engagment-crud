@@ -9,6 +9,8 @@ import Page404 from './views/Page404'
 import Engagment from './views/Engagment'
 import { Create } from './views/Create'
 import { Login } from './views/Login'
+import { Users } from './views/Users'
+import { User } from './views/User'
 
 // import axios from 'axios'
 // const api = axios.create({
@@ -41,11 +43,13 @@ function App() {
       <header className="App-header">
 
         <Routes>
-          <Route path="*" element={<Page404 />} />
-          <Route path='/engagment/:_gigID' element={<Engagment />} />
-          <Route path='/create' element={<Create />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/' element={<Home />} />
+          <Route path="*"                   element={<Page404 />} />
+          <Route path='/engagment/:_gigID'  element={<Engagment />} />
+          <Route path='/create'             element={<Create />} />
+          <Route path='/login'              element={<Login />} />
+          <Route path='/users'              element={<Users />} />
+          <Route path='/users/:_gigID'      element={<User />} />
+          <Route path='/'                   element={<Home />} />
         </Routes>
 
       </header>
