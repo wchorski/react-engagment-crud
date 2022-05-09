@@ -1,4 +1,6 @@
-Dockerfile*
+Dockerfile
+Dockerfile.prod
+Dockerfile.dev
 README.md
 node_modules
 .git

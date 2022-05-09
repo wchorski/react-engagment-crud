@@ -4,10 +4,11 @@ import React, { useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
 // import Navbar         from './Components/Navbar'
-import Home           from './views/Home'
-import Page404        from './views/Page404'
-import Engagment      from './views/Engagment'
-import {Create}       from './views/Create'
+import Home from './views/Home'
+import Page404 from './views/Page404'
+import Engagment from './views/Engagment'
+import { Create } from './views/Create'
+import { Login } from './views/Login'
 
 // import axios from 'axios'
 // const api = axios.create({
@@ -39,11 +40,12 @@ function App() {
     <div className="App">
       <header className="App-header">
 
-        <Routes> 
-          <Route path="*"                   element={<Page404/>} />
-          <Route path='/engagment/:_gigID'  element={<Engagment/>}/>  
-          <Route path='/create'             element={<Create/>}/>  
-          <Route path='/'                   element={<Home/>}/>  
+        <Routes>
+          <Route path="*" element={<Page404 />} />
+          <Route path='/engagment/:_gigID' element={<Engagment />} />
+          <Route path='/create' element={<Create />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/' element={<Home />} />
         </Routes>
 
       </header>

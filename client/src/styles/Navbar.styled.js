@@ -7,8 +7,16 @@ export const StyledNavBar = styled.nav`
   display: flex;
   align-items: center;
 
+  a:hover{
+    opacity: .2;
+  }
+
   .App-logo{
     padding: 1rem;
+
+    &:hover{
+      opacity: .2;
+    }
   }
   
   ul{
@@ -18,11 +26,18 @@ export const StyledNavBar = styled.nav`
     padding: 0;
 
     li{
-      // background-color: rgb(78, 105, 123);
-      padding: 1rem 1rem;
-      height: 100%;
+      // height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items:center;
 
       a{
+        font-size: 2rem;
+        text-align: center;
+        padding: 3rem 2rem;
+        display: inline-block;
+        // height: 200px;
+
         color: white;
       }
     }

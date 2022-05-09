@@ -4,13 +4,16 @@ import React from "react"
 import { StyledNavBar } from '../styles/Navbar.styled'
 
 function Navbar() {
-  return(
+  return (
     <>
       <StyledNavBar>
-        <img src={logo} className="App-logo" alt="logo" />
+        <a href="/">
+          <img src={logo} className="App-logo" alt="logo" />
+        </a>
         <ul>
           <li><a href="/"       > Home </a></li>
           <li><a href="/create" > Create </a></li>
+          <li><a href="/login" > Login </a></li>
         </ul>
       </StyledNavBar>
     </>

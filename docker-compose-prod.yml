@@ -7,7 +7,7 @@ services:
       context: ./server
       dockerfile: Dockerfile
       args:
-        NODE_ENV: development
+        NODE_ENV: production
     ports:
       - "4011:3001"
     volumes:
@@ -15,7 +15,7 @@ services:
       - /app/node_modules
     environment:
       - PORT=3001
-      - NODE_ENV=development
+      - NODE_ENV=production
       - MONGO_USER=sanjeev
       - MONGO_PASS=mypassword
       - SESSION_SECRET=secret
@@ -55,15 +55,15 @@ services:
     # restart: always
     build:
       context: ./client
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.prod
     volumes:
       - ./client:/app
       - /app/node_modules
     ports:
-      # - 4010:80
-      - 4010:3000
+      - 4010:80
+      # - 4010:3000
     environment:
-      - EXPRESS_API_IP=localhost
+      - EXPRESS_API_IP=192.168.0.100
       - EXPRESS_API_PORT=4011
     depends_on:
       - sanjeev-express
