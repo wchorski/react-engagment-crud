@@ -11,8 +11,6 @@ import { StyledGigTable } from '../styles/GigTable.styled'
 
 import axios from 'axios'
 const { EXPRESS_API_IP, EXPRESS_API_PORT } = require('../config/config')
-console.log(EXPRESS_API_PORT);
-console.log(process.env.NODE_ENV);
 
 const api = axios.create({
   baseURL: `${EXPRESS_API_IP}:${EXPRESS_API_PORT}/api/v1`

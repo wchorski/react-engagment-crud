@@ -22,6 +22,7 @@ export const Login = () => {
   const navigate = useNavigate()
 
   const [isUsernameTaken, setIsUsernameTaken] = useState(false)
+  const [isLoginFail, setissLoginFail] = useState(false)
 
   const addUser = async (creds) => {
     try{
@@ -47,8 +48,9 @@ export const Login = () => {
     try{
       let res = await api.post('/users/login', { ...creds})
       return navigate('/')
-      
+      setissLoginFail(false)
     } catch (err){
+      setissLoginFail(true)
       console.log(err);
     }
   }
@@ -89,7 +91,7 @@ export const Login = () => {
           validationSchema={SignupSchema}
           validateOnChange={false} // disable on every keystroke
           onSubmit={(values, actions) => {
-            alert(JSON.stringify(values, null, 2))
+            // alert(JSON.stringify(values, null, 2))
             loginUser(values)
             actions.resetForm()
           }}
@@ -114,6 +116,10 @@ export const Login = () => {
                   ) : null}
                 </div>
 
+                {isLoginFail && (
+                  <span className='formErr'>Login Failed. Check your credentials and try again</span>
+                )}
+
                 <div className='btns'>
                   <button className='lgin' type='submit'>Login</button>
                   <button>Create Account</button>
@@ -133,7 +139,7 @@ export const Login = () => {
           validateOnChange={false} // disable on every keystroke
           onSubmit={(values, actions) => {
             addUser(values)
-            alert(JSON.stringify(values, null, 2))
+            // alert(JSON.stringify(values, null, 2))
             actions.resetForm()
           }}
         >
