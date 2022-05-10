@@ -17,7 +17,7 @@ exports.getAllGigs = async (req, res, next) => {
     res.status(400).json({status: 'failed getAllGigs', } )
   }
 }
-//  localhost:3001/api/v1/engagement/:id
+//  api/v1/engagement/:id
 
 exports.getOneGig = async (req, res, next) => {
   try{

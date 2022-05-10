@@ -8,5 +8,4 @@ echo 'copied .env file over to client'
 cat ./client/.env
 
 
-
-docker-compose -f docker-compose-prod.yml up -d -V --build
+docker-compose up -d --build -V

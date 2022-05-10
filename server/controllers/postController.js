@@ -17,7 +17,7 @@ exports.getAllPosts = async (req, res, next) => {
     res.status(400).json({status: 'fail',})
   }
 }
-//  localhost:3001/api/v1/posts/:id
+//  api/v1/posts/:id
 
 exports.getOnePost = async (req, res, next) => {
   try{

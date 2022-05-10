@@ -5,6 +5,7 @@ LABEL description="React Frontend for the gig crud API"
 
 WORKDIR /app
 COPY . ./
+
 COPY ./package.json ./
 RUN npm install --only=prod
 RUN npm run build

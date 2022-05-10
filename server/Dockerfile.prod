@@ -13,4 +13,4 @@ RUN if [ "$NODE_ENV" = "development" ]; \
 COPY . ./
 ENV PORT 4011
 EXPOSE $PORT
-CMD ["npm", "server.js"]
+CMD ["node", "server.js"]

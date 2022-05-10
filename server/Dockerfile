@@ -12,4 +12,4 @@ RUN if [ "$NODE_ENV" = "development" ]; \
 COPY . ./
 ENV PORT 3001
 EXPOSE $PORT
-CMD ["npm", "server.js"]
+CMD ["npm", "run", "dev"]

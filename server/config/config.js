@@ -7,5 +7,6 @@ module.exports = {
   REDIS_URL: process.env.REDIS_URL || 'redis',
   REDIS_PORT: process.env.REDIS_PORT || 6379,
   SESSION_SECRET: process.env.SESSION_SECRET,
-  EXPRESS_PORT: process.env.EXPRESS_PORT || 4011
+  INTERNAL_PORT: process.env.INTERNAL_PORT || 3001,
+  MY_VARIABLE: process.env.MY_VARIABLE || "MY_VARIABLE = notset"
 }

@@ -1,4 +1,5 @@
-const { MONGO_USER, MONGO_PASS, MONGO_IP, MONGO_PORT, SESSION_SECRET, REDIS_URL, REDIS_PORT, EXPRESS_PORT, EXPRESS_API_IP } = require('./config/config')
+const { MONGO_USER, MONGO_PASS, MONGO_IP, MONGO_PORT, SESSION_SECRET, REDIS_URL, REDIS_PORT, EXPRESS_API_IP, EXPRESS_API_PORT, MY_VARIABLE} = require('./config/config')
+console.log(MY_VARIABLE);
 const express = require('express')
 const app = express()
 // const https = require('https')
@@ -68,12 +69,12 @@ const postRouter = require('./routes/postRoutes')
 const userRouter = require('./routes/userRoutes')
 const engagementRtr = require('./routes/engagementRts')
 
-// localhost:3001/api/v1/posts
+// /api/v1/posts
 app.use('/api/v1/posts', postRouter)
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/engagements', engagementRtr)
 
-const port = process.env.PORT || 3001
+const port = EXPRESS_API_PORT || 3001
 
 // const sslServer = https.createServer({
 //   key: fs.readFileSync(path.join(__dirname, 'cert', 'key.pem')),
@@ -81,7 +82,7 @@ const port = process.env.PORT || 3001
 // }, app)
 
 // sslServer.listen(port, () => console.log(`-- Express SSL Server: https://localhost:${port} --`))
-app.listen(port, () => console.log(`-- Express Server: http://${EXPRESS_API_IP}:${port} --`))
+app.listen(port, () => console.log(`-- Express Connected. INTERNAL_PORT :${port} --`))
 
 //! must go at the bottom of exp.get calls
 app.use((req, res) => {

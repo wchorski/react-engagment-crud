@@ -1,11 +1,14 @@
 
+let api_port = 1111
+
+if(process.env.NODE_ENV === 'development'){
+  api_port = 3001
+} else if(process.env.NODE_ENV === 'production'){
+  api_port = process.env.REACT_APP__EXPRESS_API_PORT
+}
+
 module.exports = {
 
-  EXPRESS_API_IP: process.env.EXPRESS_API_IP || "http://localhost",
-  EXPRESS_API_PORT: process.env.EXPRESS_API_PORT || 3001,
-  // MONGO_USER: process.env.MONGO_USER || "sanjeev",
-  // MONGO_PASS: process.env.MONGO_PASS || "mypassword",
-  // REDIS_URL: process.env.REDIS_URL || 'redis',
-  // REDIS_PORT: process.env.REDIS_PORT || 6379,
-  // SESSION_SECRET: process.env.SESSION_SECRET
+  EXPRESS_API_IP: process.env.REACT_APP__EXPRESS_API_IP || "http://localhost",
+  EXPRESS_API_PORT: api_port || 3001,
 }
