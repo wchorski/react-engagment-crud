@@ -10,7 +10,7 @@ services:
       args:
         NODE_ENV: production
     ports:
-      - ${REACT_APP__EXPRESS_API_PORT}:3001
+      - ${API_EXTERNAL_PORT}:3001
     volumes:
       - ./server:/app
       - /app/node_modules
