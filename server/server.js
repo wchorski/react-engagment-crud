@@ -7,6 +7,11 @@ const app = express()
 // const fs = require('fs')
 const cors = require('cors')
 
+
+// TODO help from Tom
+// const cookie_parser = require('cookie-parser')
+var cookieParser = require('cookie-parser')
+
 const session = require('express-session')
 const redis = require('redis')
 let RedisStore = require('connect-redis')(session)
@@ -15,6 +20,7 @@ let redisClient = redis.createClient({
   host: REDIS_URL,
   port: REDIS_PORT
 })
+
 
 
 const mongoose = require('mongoose')
@@ -40,6 +46,9 @@ app.enable('trust proxy', 1) //? use when running behind ngnix
 app.use(cors({}))
 
 //? session middleware
+
+app.use(cookieParser())
+
 app.use(session({
   store: new RedisStore({client: redisClient}),
   secret: SESSION_SECRET,
@@ -49,7 +58,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     httpOnly: true,
-    maxAge: 60000,
+    maxAge: 60000 * 60,
   }
 }))
 

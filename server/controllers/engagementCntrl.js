@@ -1,8 +1,10 @@
 const Engagement = require('../models/engagementModel')
 
 exports.getAllGigs = async (req, res, next) => {
+
   try{
     const gigs = await Engagement.find()
+
 
     res.status(200).json({
       status: 'successful getAllGigs',

@@ -3,6 +3,12 @@ import styled from 'styled-components'
 
 export const StyledGigTable = styled.div`
 
+  .formErr{
+    background-color: #ff0000ad;
+    padding: .2rem 1rem;
+    border-bottom: solid 3px red;
+  }
+
   .postTable{
     display: flex;
     justify-content: center;

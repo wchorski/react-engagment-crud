@@ -6,6 +6,7 @@ import { FaUserAlt } from 'react-icons/fa'
 import { MdPassword } from 'react-icons/md'
 
 import Navbar from '../Components/Navbar'
+import {GigTable} from '../Components/GigTable'
 
 import {StyledLoginForm} from '../styles/LoginForm.styled'
 
@@ -28,7 +29,7 @@ export const Login = () => {
     try{
       let res = await api.post('/users/signup', { ...creds})
       setIsUsernameTaken(false)
-      return navigate('/')
+      // return navigate('/users')
       return console.log(res);
       
     } catch (err){
@@ -47,7 +48,7 @@ export const Login = () => {
   const loginUser = async (creds) => {
     try{
       let res = await api.post('/users/login', { ...creds})
-      return navigate('/')
+      // return navigate('/users')
       setissLoginFail(false)
     } catch (err){
       setissLoginFail(true)
@@ -85,8 +86,9 @@ export const Login = () => {
       <div>
 
 
-        <h1>Login</h1>
+        <h1>Login.jsx</h1>
         <Formik
+
           initialValues={{ username: "", password: "" }}
           validationSchema={SignupSchema}
           validateOnChange={false} // disable on every keystroke
@@ -96,6 +98,8 @@ export const Login = () => {
             actions.resetForm()
           }}
         >
+
+
           {({ errors, touched }) => (
             <StyledLoginForm>
 
@@ -174,6 +178,8 @@ export const Login = () => {
         </Formik>
 
       </div>
+
+      <GigTable />
     </>
   )
 }

@@ -21,18 +21,29 @@ export const GigTable = () => {
 
   //? DATA ###############################
   const [gigsArray, setGigssArray] = useState([])
+  const [isAuthorized, setisAuthorized] = useState(false)
 
   const getGigs = async () => {
-    let response = await api.get('/engagements').then(({ data }) => data)
-    // console.log(response.data.posts);
-    if (response === undefined || response.length === 0) {
-      console.log('no data in database')
+    try{
+      let response = await api.get('/engagements').then(({ data }) => data)
+      // console.log(response.data.posts);
+      if (response === undefined || response.length === 0) {
+        console.log('no data in database')
+  
+        return setGigssArray([{ client: "no client", type: "no type" }])
+      }
+      // setPostsArray(prevPostsArray => [response.data.posts, ...prevPostsArray])
+      setisAuthorized(true)
+      setGigssArray(response.data.gigs)
+      // console.log(gigsArray)
 
-      return setGigssArray([{ client: "no client", type: "no type" }])
+    } catch (err){
+      
+      if(err.response.status === 401){
+        setisAuthorized(false)
+      }
+      console.log(err)
     }
-    // setPostsArray(prevPostsArray => [response.data.posts, ...prevPostsArray])
-    setGigssArray(response.data.gigs)
-    // console.log(gigsArray)
   }
 
   useEffect(() => {
@@ -91,8 +102,12 @@ export const GigTable = () => {
   return (
     <>
       <StyledGigTable>
-        <button onClick={getGigs}>refresh gigs <GrRefresh /></button>
 
+        {!isAuthorized && (
+          <span className='formErr'>You're not logged in. Login to view.</span> 
+        )}
+        
+        <button onClick={getGigs}>refresh gigs <GrRefresh /></button>
 
         <div className="postTable">
 

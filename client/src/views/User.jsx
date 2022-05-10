@@ -69,10 +69,8 @@ export const User = () => {
     <>
       <Navbar />
       <div>
-        <h1>User: {gigState.username}</h1>
-        {/* <button className='editBtn' onClick={() => deleteForm(_gigID)}> <FaTrashAlt/> </button> */}
+        <h1>User.jsx</h1>
         <button className='editBtn' onClick={() => toggleAreYouSure()}> <FaTrashAlt /> </button>
-        <h2>{_gigID}</h2>
 
         {isAreYouSure && (
           <StyledPopUp>
