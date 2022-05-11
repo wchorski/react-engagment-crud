@@ -62,7 +62,6 @@ services:
       - ./client:/app
       - /app/node_modules
     ports:
-      # - 4010:80
       - 3000:3000
     environment:
       - EXPRESS_API_IP=http://localhost

@@ -1,11 +1,20 @@
 // import '../styles/navbar.scss'
 import logo from '../logo.svg'
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { StyledNavBar } from '../styles/Navbar.styled'
 import { StyledNavSub } from '../styles/NavSub.styled'
 import { RiUser5Line, RiLogoutBoxRLine } from 'react-icons/ri';
 
 function Navbar() {
+  
+  const [username, setUsername] = useState('--usernm--')
+
+  useEffect((req, res) => {
+    // console.log(res);
+    // TODO get username from cookie. display on subNav
+    console.log('Navbar.jsx useEffect');
+  }, [])
+
   return (
     <>
       <StyledNavBar>
@@ -23,7 +32,7 @@ function Navbar() {
 
       <StyledNavSub>
         <ul>
-          <li className='userCred'><RiUser5Line /> <span>--username--</span> <button><RiLogoutBoxRLine />logout</button></li>
+          <li className='userCred'><RiUser5Line /> <span> {username} </span> <button><RiLogoutBoxRLine />logout</button></li>
         </ul>
       </StyledNavSub>
     </>

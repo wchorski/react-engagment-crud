@@ -43,30 +43,34 @@ connectWithRetry()
 
 
 app.enable('trust proxy', 1) //? use when running behind ngnix
-app.use(cors({}))
-
-//? session middleware
+app.use(cors({credentials: true}))
+app.use(express.json())
+app.set('json spaces', 2) //? prettyfiy json in browser
 
 app.use(cookieParser())
 
+//? session middleware
 app.use(session({
   store: new RedisStore({client: redisClient}),
   secret: SESSION_SECRET,
+  credentials: true,
+  name: 'connect.sid',
+  resave: false,
+
 
   cookie: {
-    secure: false,
-    resave: false,
-    saveUninitialized: false,
+    secure: false, //TODO make this variable with NODE_ENV
     httpOnly: true,
-    maxAge: 60000 * 60,
+    maxAge: (1000 * 60) * 60,
+    whatisthis: 'idk',
+    sameSite: "none",
+    // sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax'
   }
 }))
 
-
-app.use(express.json())
-
-app.set('json spaces', 2) //? prettyfiy json in browser
 app.get('/', (req, res) => {
+  
+  console.log(req.cookies);
   res.json({ title: 'Engagement api - http://', message: 'trying to learn node + docker' })
 })
 

@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs')
 exports.signUp = async(req, res) => {
 
   const {username, password} = req.body
+  // console.log(req.body);
 
   const duplicateName = await User.findOne( {username: username}).exec()
   if(duplicateName) return res.sendStatus(409) 
@@ -61,7 +62,11 @@ exports.login = async (req, res) => {
     if(isCorrect){
 
       req.session.user = user //? logins in & gets data from session cookie
-      console.log('---- user logged in: ' + username);
+      console.log('---- isCorrect -- user logged in: ' + username);
+      console.log('---- authcontr login ');
+      req.session.myguy = 'paul'
+      console.log(req.session);
+      
       res.status(200).json({
         status: 'successful login',
         user: user
@@ -76,7 +81,7 @@ exports.login = async (req, res) => {
 
   } catch (err) {
     res.status(400).json({
-      status: 'failed login catch',
+      status: 'complete failure login catch',
       message: err.toString()
     })
   }
@@ -84,6 +89,12 @@ exports.login = async (req, res) => {
 
 
 exports.getAllUsers = async (req, res, next) => {
+  // res.cookie("sky", "isBlue" )
+  // res.cookie("grass", "green")
+  // res.cookie("water", "wet")
+  // res.cookie("httpOnly", "true", {httpOnly: true})
+
+  
   try{
     const users = await User.find()
 

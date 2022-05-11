@@ -2,6 +2,8 @@ const Engagement = require('../models/engagementModel')
 
 exports.getAllGigs = async (req, res, next) => {
 
+  // console.log(res);
+
   try{
     const gigs = await Engagement.find()
 
@@ -19,8 +21,8 @@ exports.getAllGigs = async (req, res, next) => {
     res.status(400).json({status: 'failed getAllGigs', } )
   }
 }
-//  api/v1/engagement/:id
 
+//  api/v1/engagement/:id
 exports.getOneGig = async (req, res, next) => {
   try{
     const gig = await Engagement.findById(req.params.id)

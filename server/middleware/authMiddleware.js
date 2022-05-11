@@ -1,8 +1,7 @@
 const protect = (req, res, next) => {
   
   const {user} = req.session
-  console.log(user);
-
+  console.log("--authMiddle.js--");
   console.log(req.session);
 
 
