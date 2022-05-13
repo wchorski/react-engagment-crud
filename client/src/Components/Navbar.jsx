@@ -12,7 +12,7 @@ function Navbar() {
   useEffect((req, res) => {
     // console.log(res);
     // TODO get username from cookie. display on subNav
-    console.log('Navbar.jsx useEffect');
+    // console.log('Navbar.jsx useEffect');
   }, [])
 
   return (

@@ -1,9 +1,11 @@
 const User = require('../models/userModel')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const {SESSION_SECRET, REFRESH_TOKEN_SECRET} = require('../config/config')
 
 exports.signUp = async(req, res) => {
 
-  const {username, password} = req.body
+  const {username, password, roles} = req.body
   // console.log(req.body);
 
   const duplicateName = await User.findOne( {username: username}).exec()
@@ -18,8 +20,10 @@ exports.signUp = async(req, res) => {
     const hashpassword = await bcrypt.hash(password, 12)
     const newUser = await User.create({
       username,
-      password: hashpassword
+      password: hashpassword,
+      roles: roles
     })
+
 
     console.log('New User Created: ' + username);
     req.session.user = newUser //? logins in after creating & gets data from session cookie
@@ -61,19 +65,43 @@ exports.login = async (req, res) => {
     const isCorrect = await bcrypt.compare(password, user.password)
     if(isCorrect){
 
-      req.session.user = user //? logins in & gets data from session cookie
+      // const roles = Object.values(user.roles).filter(Boolean)
+      const roles = user.roles
+      // console.log('---authcontr Login()');
+
+      //* Create Web Token
+      const accessToken = jwt.sign(
+        {
+          "UserInfo": {
+            "username": user.username,
+            "password": user.password,
+            "roles": roles
+          },
+        },
+        SESSION_SECRET,
+        { expiresIn: '20s'}
+      )
+      const refreshToken = jwt.sign(
+        { "username": user.username},
+        REFRESH_TOKEN_SECRET,
+        { expiresIn: '1d'}
+      )
+      //? save refreshToken with current user
+      user.refreshToken = refreshToken
+      const result = await user.save()
+      // console.log(result)
+
+      // create cookie with refresh token
+      res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 })
+
+      //* send auth roles and token to user
+      res.status(200).json({ messsage: "successful login", username, roles, accessToken})
+
       console.log('---- isCorrect -- user logged in: ' + username);
-      console.log('---- authcontr login ');
-      req.session.myguy = 'paul'
-      console.log(req.session);
-      
-      res.status(200).json({
-        status: 'successful login',
-        user: user
-      })
+
 
     } else {
-      res.status(400).json({
+      res.status(401).json({
         status: 'failed login',
         message: 'incorrect username or password'
       })
@@ -89,11 +117,6 @@ exports.login = async (req, res) => {
 
 
 exports.getAllUsers = async (req, res, next) => {
-  // res.cookie("sky", "isBlue" )
-  // res.cookie("grass", "green")
-  // res.cookie("water", "wet")
-  // res.cookie("httpOnly", "true", {httpOnly: true})
-
   
   try{
     const users = await User.find()

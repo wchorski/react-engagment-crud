@@ -6,6 +6,8 @@ import Navbar from '../Components/Navbar'
 import { StyledPopUp } from '../styles/popup.styled'
 import { GigSingle } from '../Components/GigSingle'
 
+import { useRefreshToken } from "../hooks/useRefreshToken";
+
 import axios from 'axios'
 const { EXPRESS_API_IP, EXPRESS_API_PORT } = require('../config/config')
 
@@ -26,19 +28,47 @@ const Engagment = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [gigState, setGigState] = useState({});
 
-  const getGig = async () => {
-    let response = await api.get(`/engagements/${_gigID}`).then(({ data }) => data)
 
-    if (response === undefined || response.length === 0) {
-      console.log('gig not in database')
+  const refresh = useRefreshToken( )
+  useEffect(() => {
+    console.log('Engagment.jsx useEffect');
+    let isMounted = true;
+    const controller = new AbortController()
+
+    getGig(isMounted, controller)
+
+    // return () => {
+    //   isMounted = false
+    //   controller.abort()
+    // }
+  
+  }, [])
+
+  const getGig = async (isMntd, contlr) => {
+    try{
+      // let response = await api.get(`/engagements/${_gigID}`).then(({ data }) => data)
+      const response = await api.get(`/engagements/${_gigID}`, {
+        signal: contlr.signal
+      })
+      console.log(response.data.data)
+      isMntd && setGigState(response.data.data.gig)
+
+      // if (response === undefined || response.length === 0) {
+      //   console.log('gig not in database')
+      //   return setGigState([{ client: "no client", type: "no type" }])
+      // }
+
+      // setGigState(response.data.gig)
+      // console.log(gigState)
+
+      setIsLoading(false)
+      // console.log(isLoading);
+
+    } catch (err){
+      console.log(err);
       return setGigState([{ client: "no client", type: "no type" }])
     }
-
-    setGigState(response.data.gig)
-    console.log(gigState)
-
-    setIsLoading(false)
-    console.log(isLoading);
+  
   }
 
   const deleteGig = async (_id) => {
@@ -60,15 +90,11 @@ const Engagment = () => {
     setisAreYouSure(previsSure => !previsSure)
   }
 
-  useEffect(() => {
-    getGig()
-    console.log('Engagment.jsx useEffect');
-  }, [])
-
 
   return (
     <>
       <Navbar />
+      <button onClick={() => refresh()}>Refresh token</button>
       <div>
         <h1>Engagment {gigState.client}</h1>
         {/* <button className='editBtn' onClick={() => deleteForm(_gigID)}> <FaTrashAlt/> </button> */}

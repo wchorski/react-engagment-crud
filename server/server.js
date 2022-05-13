@@ -6,6 +6,8 @@ const app = express()
 // const path = require('path')
 // const fs = require('fs')
 const cors = require('cors')
+const corsOptions = require('./config/corsOptions')
+const credentials = require('./middleware/credentials');
 
 
 // TODO help from Tom
@@ -41,9 +43,9 @@ const connectWithRetry = () => {
 }
 connectWithRetry()
 
-
+app.use(credentials)
 app.enable('trust proxy', 1) //? use when running behind ngnix
-app.use(cors({credentials: true}))
+app.use(cors(corsOptions))
 app.use(express.json())
 app.set('json spaces', 2) //? prettyfiy json in browser
 
@@ -78,14 +80,12 @@ app.get("/users", (req, res) => {
   res.json({ title: "users" })
 })
 
-const postRouter = require('./routes/postRoutes')
-const userRouter = require('./routes/userRoutes')
-const engagementRtr = require('./routes/engagementRts')
 
 // /api/v1/posts
-app.use('/api/v1/posts', postRouter)
-app.use('/api/v1/users', userRouter)
-app.use('/api/v1/engagements', engagementRtr)
+app.use('/api/v1/posts', require('./routes/postRoutes'))
+app.use('/api/v1/users', require('./routes/userRoutes'))
+app.use('/api/v1/engagements', require('./routes/engagementRts'))
+app.use('/api/v1/refresh', require('./routes/refresh'));
 
 const port = EXPRESS_API_PORT || 3001
 

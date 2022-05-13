@@ -49,7 +49,7 @@ export const GigTable = () => {
 
   useEffect(() => {
     getGigs()
-    console.log('GigTable.jsx useEffect');
+    // console.log('GigTable.jsx useEffect');
   }, [''])
 
 

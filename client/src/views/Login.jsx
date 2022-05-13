@@ -1,26 +1,34 @@
-import React, {useState} from 'react';
-import { useNavigate } from "react-router-dom";
+import React, { useState, useRef } from 'react';
+// import AuthContext from '../context/AuthProvider';
+import useAuth from '../hooks/useAuth';
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useFormik, Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { FaUserAlt } from 'react-icons/fa'
 import { MdPassword } from 'react-icons/md'
+
+import { api } from '../api/axios';
+import { useRefreshToken } from '../hooks/useRefreshToken';
 
 import Navbar from '../Components/Navbar'
 import {GigTable} from '../Components/GigTable'
 
 import {StyledLoginForm} from '../styles/LoginForm.styled'
 
-import axios from 'axios'
-const { EXPRESS_API_IP, EXPRESS_API_PORT } = require('../config/config')
-const api = axios.create({
-  baseURL: `${EXPRESS_API_IP}:${EXPRESS_API_PORT}/api/v1`
-  // baseURL: `http://192.168.0.100:4011/api/v1`
-})
 
 
 export const Login = () => {
 
+  const { setAuth } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+  const from = location.state?.from?.pathname || '/'
+
+  const refresh = useRefreshToken()
+
+  const userRef = useRef()
+  const errRef = useRef()
+
 
   const [isUsernameTaken, setIsUsernameTaken] = useState(false)
   const [isLoginFail, setissLoginFail] = useState(false)
@@ -47,10 +55,18 @@ export const Login = () => {
 
   const loginUser = async (creds) => {
     try{
-      let res = await api.post('/users/login', { ...creds})
+      // let res = await api.post('/users/login', { ...creds})
+      let res = await api.post('/users/login', JSON.stringify( { ...creds}), {
+        headers: { 'Content-Type': 'application/json'},
+        withCredentials: true
+      })
+      console.log(JSON.stringify(res?.data))
+      const accessToken = res?.data?.accessToken
+      setAuth({...creds, accessToken})
 
-      // return navigate('/users')
       setissLoginFail(false)
+      return navigate(from, { replace: true })
+
     } catch (err){
       setissLoginFail(true)
       console.log(err);
@@ -66,6 +82,7 @@ export const Login = () => {
       .min(6, '*Your Username too short!')
       .max(28, '*Your Username too long!'),
       // TODO How to show user that 'username' is already taken
+      // TODO make a api request where single use can be accessed like a bool
       // .test('Unique Username', '*Username already taken. Use different username', 
       // function(value){
       //   return new Promise((resolve, reject) => {
@@ -77,6 +94,7 @@ export const Login = () => {
       //   })
       // }),
     password: Yup.string().required('*password required!').min(6, '*Your password too short!').max(28, '*Your password too long!'),
+    roles: Yup.string().min(6, '*Your roles name is too short!').max(28, '*Your roles name is too long!'),
 
   })
 
@@ -88,6 +106,7 @@ export const Login = () => {
 
 
         <h1>Login.jsx</h1>
+        <button onClick={() => refresh()}>Refresh Login</button>
         <Formik
 
           initialValues={{ username: "", password: "" }}
@@ -139,7 +158,7 @@ export const Login = () => {
 
         <h1>Signup</h1>
         <Formik
-          initialValues={{ username: "", password: "" }}
+          initialValues={{ username: "", password: "", roles: "" }}
           validationSchema={SignupSchema}
           validateOnChange={false} // disable on every keystroke
           onSubmit={(values, actions) => {
@@ -169,6 +188,13 @@ export const Login = () => {
                   ) : null}
                 </div>
 
+                <div className='form-item'>
+                  <Field name="roles" type="roles" placeholder="roles..." />
+                  {errors.roles && touched.roles ? (
+                    <span className='formErr'>{errors.roles}</span>
+                  ) : null}
+                </div>
+
                 <div className='btns'>
                   <button className='lgin' type='submit'>Create Account</button>
                 </div>
@@ -180,7 +206,7 @@ export const Login = () => {
 
       </div>
 
-      <GigTable />
+      {/* <GigTable /> */}
     </>
   )
 }

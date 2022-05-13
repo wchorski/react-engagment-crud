@@ -9,10 +9,10 @@ router.route('/')
 
   .get(engagementCntrl.getAllGigs)
   // .post(engagementCntrl.createGig) 
-  .post(protect, engagementCntrl.createGig)
+  .post( engagementCntrl.createGig)
    
 router.route('/:id')
-  .get(protect, engagementCntrl.getOneGig)
+  .get( engagementCntrl.getOneGig)
   .patch(engagementCntrl.updateGig)
   .delete(engagementCntrl.deleteGig)
 

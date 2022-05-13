@@ -19,6 +19,8 @@ services:
       - MONGO_USER=sanjeev
       - MONGO_PASS=mypassword
       - SESSION_SECRET=secret
+      - REFRESH_TOKEN_SECRET=myRefreshTokenSecret
+      - ACCESS_TOKEN_SECRET=myAccessTokenSecret
     command: npm run dev
     depends_on:
       - mongo

@@ -9,33 +9,28 @@ import { GrRefresh } from 'react-icons/gr'
 import { format } from 'date-fns'
 import { StyledGigTable } from '../styles/GigTable.styled'
 
-import axios from 'axios'
-const { EXPRESS_API_IP, EXPRESS_API_PORT } = require('../config/config')
-
-const api = axios.create({
-  baseURL: `${EXPRESS_API_IP}:${EXPRESS_API_PORT}/api/v1`
-  // baseURL: `http://localhost:4011/api/v1`
-  // baseURL: `http://localhost:3001/api/v1`
-})
+import { UseApiPrivate } from '../hooks/useAxiosPrivate';
 
 
 export const UserTable = () => {
 
-  //? DATA ###############################
-  const [gigsArray, setGigssArray] = useState([])
+  const apiPrivate = UseApiPrivate()
 
-  const getGigs = async () => {
+  //? DATA ###############################
+  const [usersArray, setUsersArray] = useState([])
+
+  const getUsers = async () => {
     try{
-      let response = await api.get('/users').then(({ data }) => data)
+      let response = await apiPrivate.get('/users').then(({ data }) => data)
       // console.log(response.data.posts);
       if (response === undefined || response.length === 0) {
         console.log('no data in database')
   
-        return setGigssArray([{ client: "no client", type: "no type" }])
+        return setUsersArray([{ client: "no client", type: "no type" }])
       }
       // setPostsArray(prevPostsArray => [response.data.posts, ...prevPostsArray])
-      setGigssArray(response.data.users)
-      // console.log(gigsArray)
+      setUsersArray(response.data.users)
+      // console.log(usersArray)
 
     } catch (err){
       console.log('cannot get users from db');
@@ -43,17 +38,22 @@ export const UserTable = () => {
   }
 
   useEffect(() => {
-    getGigs()
+    getUsers()
     console.log('UserTable.jsx useEffect');
   }, [''])
 
 
   //? TABLE #################################
-  const gigColumns = [
+  const usersColumns = [
     {
       Header: 'Username',
       Footer: 'Username',
       accessor: 'username',
+    },
+    {
+      Header: 'Role',
+      Footer: 'Role',
+      accessor: 'roles',
     },
     {
       Header: 'Password',
@@ -67,12 +67,12 @@ export const UserTable = () => {
     },
   ]
 
-  const newColumns = useMemo(() => gigColumns, []) //* useMemo stops render on every refresh. performant
-  // const newData    = useMemo( () => gigsArray, [] ) //* idk skipping this for now
+  const newColumns = useMemo(() => usersColumns, []) //* useMemo stops render on every refresh. performant
+  // const newData    = useMemo( () => usersArray, [] ) //* idk skipping this for now
 
   const tableInstance = useTable({
     columns: newColumns,
-    data: gigsArray //* this was using 'newData'
+    data: usersArray //* this was using 'newData'
 
   }, useSortBy)
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, footerGroups } = tableInstance
@@ -81,7 +81,7 @@ export const UserTable = () => {
     <>
       <h2>UserTable  2222.jsx</h2>
       <StyledGigTable>
-        <button onClick={getGigs}>refresh users <GrRefresh /></button>
+        <button onClick={getUsers}>refresh users <GrRefresh /></button>
 
 
         <div className="postTable">
