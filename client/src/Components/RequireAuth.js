@@ -5,6 +5,8 @@ export const RequireAuth = ( {allowedRoles} ) => {
   const { auth } = useAuth()
   const location = useLocation()
 
+  console.log(auth.roles);
+
   return (
     // auth?.user ? <Outlet /> : <Navigate to="/login" state={{ from: location}} replace />
     auth?.roles?.find(role => allowedRoles?.includes(role)) 
@@ -12,5 +14,6 @@ export const RequireAuth = ( {allowedRoles} ) => {
       : auth?.user
         ? <Navigate to='/unauthorized'  state={{ from: location}} replace />
         : <Navigate to="/login"         state={{ from: location}} replace />
+        
   )
 }

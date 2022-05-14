@@ -2,7 +2,6 @@ const Engagement = require('../models/engagementModel')
 
 exports.getAllGigs = async (req, res, next) => {
 
-  // console.log(res);
 
   try{
     const gigs = await Engagement.find()

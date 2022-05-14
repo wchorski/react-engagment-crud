@@ -63,18 +63,15 @@ exports.login = async (req, res) => {
     }
 
     const isCorrect = await bcrypt.compare(password, user.password)
-    if(isCorrect){
+    if(isCorrect){  
 
-      // const roles = Object.values(user.roles).filter(Boolean)
-      const roles = user.roles
-      // console.log('---authcontr Login()');
+      const roles = Object.values(user.roles).filter(Boolean)
 
       //* Create Web Token
       const accessToken = jwt.sign(
         {
           "UserInfo": {
             "username": user.username,
-            "password": user.password,
             "roles": roles
           },
         },
@@ -89,7 +86,7 @@ exports.login = async (req, res) => {
       //? save refreshToken with current user
       user.refreshToken = refreshToken
       const result = await user.save()
-      // console.log(result)
+
 
       // create cookie with refresh token
       res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 })
